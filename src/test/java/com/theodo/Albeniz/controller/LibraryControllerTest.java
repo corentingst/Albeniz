@@ -31,7 +31,7 @@ public class LibraryControllerTest {
         }
 
     @Test
-    public void testSpecificMusicById() throws Exception{
+    public void testGetSpecificMusicById() throws Exception{
         mockMvc.perform(get("/library/music/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'id': 1, 'title': 'Thriller', 'author': 'MJ'}"));
@@ -39,7 +39,23 @@ public class LibraryControllerTest {
 
     @Test
     public void testUnknownMusicIdRouteCall() throws Exception{
-        mockMvc.perform(get("/library/music/badID"))
-                .andExpect(status().is4xxClientError());
+        mockMvc.perform(get("/library/music/1000"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testServerError() throws Exception{
+        mockMvc.perform(get("/library/music/0"))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    public void testGetMusicBySearch() throws Exception{
+        mockMvc.perform(get("/library/music?query=ll").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[" +
+                        "{'id': 1, 'title': 'Thriller', 'author': 'MJ'}," +
+                        "{'id': 3, 'title': 'Allumer le feu', 'author': 'Johnny'}" +
+                        "]"));
     }
 }

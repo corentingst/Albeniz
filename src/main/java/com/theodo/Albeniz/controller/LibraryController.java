@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/library")
@@ -22,9 +23,13 @@ public class LibraryController {
         LIBRARY.put(3, new Tune(3, "Allumer le feu", "Johnny"));
     }
 
-    @GetMapping(value = "/music")
-    public Collection<Tune> getMusic() {
-        return LIBRARY.values();
+    @RequestMapping(value = "/music", method = RequestMethod.GET, params = {"query"})
+    public Stream<Tune> getMusic(@RequestParam String query) {
+        return LIBRARY.values().stream().filter(element -> element.getTitle().contains(query));
+    }
+    @RequestMapping(value = "/music", method = RequestMethod.GET)
+    public Stream<Tune> getMusic() {
+        return LIBRARY.values().stream();
     }
 
     @GetMapping("music/{musicId}")
