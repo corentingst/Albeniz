@@ -3,7 +3,7 @@ package com.theodo.Albeniz.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = LibraryController.class)
+@SpringBootTest
 @AutoConfigureMockMvc
-public class LibraryControllerTest {
+public class LibraryControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +31,7 @@ public class LibraryControllerTest {
         }
 
     @Test
-    public void testGetSpecificMusicById() throws Exception{
+    public void testGetSpecificMusicById() throws Exception {
         mockMvc.perform(get("/library/music/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'id': 1, 'title': 'Thriller', 'author': 'MJ'}"));
@@ -46,7 +46,7 @@ public class LibraryControllerTest {
     @Test
     public void testServerError() throws Exception{
         mockMvc.perform(get("/library/music/0"))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isInternalServerError());
     }
 
     @Test
