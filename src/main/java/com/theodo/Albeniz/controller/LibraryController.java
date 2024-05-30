@@ -23,13 +23,14 @@ public class LibraryController {
         LIBRARY.put(3, new Tune(3, "Allumer le feu", "Johnny"));
     }
 
-    @RequestMapping(value = "/music", method = RequestMethod.GET, params = {"query"})
-    public Stream<Tune> getMusic(@RequestParam String query) {
-        return LIBRARY.values().stream().filter(element -> element.getTitle().contains(query));
-    }
-    @RequestMapping(value = "/music", method = RequestMethod.GET)
-    public Stream<Tune> getMusic() {
-        return LIBRARY.values().stream();
+    @GetMapping(value = "/music")
+    public Stream<Tune> getMusic(@RequestParam(required = false) String query) {
+        if (query != null){
+            return LIBRARY.values().stream().filter(element -> element.getTitle().contains(query));
+        } else {
+            return LIBRARY.values().stream();
+        }
+
     }
 
     @GetMapping("music/{musicId}")
