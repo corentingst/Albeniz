@@ -24,9 +24,22 @@ public class LibraryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "[" +
-                                "{'title': 'Thriller', 'author': 'MJ'}," +
-                                "{'title': 'Bohemian Rapsody', 'author': 'Queen'}," +
-                                "{'title': 'Allumer le feu', 'author': 'Johnny'}" +
+                                "{'id': 1, 'title': 'Thriller', 'author': 'MJ'}," +
+                                "{'id': 2, 'title': 'Bohemian Rapsody', 'author': 'Queen'}," +
+                                "{'id': 3, 'title': 'Allumer le feu', 'author': 'Johnny'}" +
                                 "]"));
         }
+
+    @Test
+    public void testSpecificMusicById() throws Exception{
+        mockMvc.perform(get("/library/music/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'id': 1, 'title': 'Thriller', 'author': 'MJ'}"));
+    }
+
+    @Test
+    public void testUnknownMusicIdRouteCall() throws Exception{
+        mockMvc.perform(get("/library/music/badID"))
+                .andExpect(status().is4xxClientError());
+    }
 }
