@@ -1,13 +1,12 @@
+
 package com.theodo.Albeniz.controller;
 
-import com.theodo.Albeniz.Exceptions.UnknownMusicId;
 import com.theodo.Albeniz.Service.LibraryService;
 import com.theodo.Albeniz.dto.Tune;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/library")
@@ -17,12 +16,8 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     @GetMapping(value = "/music")
-    public Stream<Tune> getMusic(@RequestParam(required = false) String query) {
-        if (query != null){
-            return this.libraryService.getBySearch(query);
-        } else {
-            return this.libraryService.getAll();
-        }
+    public List<Tune> getMusic(@RequestParam(required = false) String query) {
+        return libraryService.getMusic(query);
     }
 
     @GetMapping("music/{musicId}")
@@ -30,4 +25,3 @@ public class LibraryController {
         return this.libraryService.getOne(musicId);
     }
 }
-
