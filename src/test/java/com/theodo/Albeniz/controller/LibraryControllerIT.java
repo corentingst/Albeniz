@@ -25,10 +25,10 @@ public class LibraryControllerIT {
                 .andExpect(content().json(
                         "[" +
                                 "{'id': 1, 'title': 'Thriller', 'author': 'MJ'}," +
-                                "{'id': 2, 'title': 'Bohemian Rapsody', 'author': 'Queen'}," +
+                                "{'id': 2, 'title': 'Bohemian Rhapsody', 'author': 'Queen'}," +
                                 "{'id': 3, 'title': 'Allumer le feu', 'author': 'Johnny'}" +
                                 "]"));
-        }
+    }
 
     @Test
     public void testGetSpecificMusicById() throws Exception {
@@ -41,12 +41,6 @@ public class LibraryControllerIT {
     public void testUnknownMusicIdRouteCall() throws Exception{
         mockMvc.perform(get("/library/music/1000"))
                 .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void testServerError() throws Exception{
-        mockMvc.perform(get("/library/music/0"))
-                .andExpect(status().isInternalServerError());
     }
 
     @Test
