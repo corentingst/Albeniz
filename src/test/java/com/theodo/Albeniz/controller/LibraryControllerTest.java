@@ -67,7 +67,7 @@ public class LibraryControllerTest {
     }
 
     @Test
-    public void testGetLibraryRouteWithSear() throws Exception{
+    public void testGetSpecificTune() throws Exception{
         BDDMockito.given(this.libraryService.getOne(2)).willReturn(bohemianTune);
         mockMvc.perform(get("/library/music/2").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
