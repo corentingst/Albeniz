@@ -2,14 +2,13 @@
 
 package com.theodo.Albeniz.services;
 
-import com.theodo.Albeniz.Service.LibraryService;
+import com.theodo.Albeniz.Service.InMemoryLibraryServiceMock;
 import com.theodo.Albeniz.dto.Tune;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class LibraryServiceTest {
 
@@ -28,13 +27,13 @@ public class LibraryServiceTest {
 
     @Test
     public void testGetAll() throws Exception{
-        LibraryService libraryService = new LibraryService();
-        Assertions.assertEquals(completeLibrary, libraryService.getMusic(null));
+        InMemoryLibraryServiceMock inMemoryLibraryServiceMock = new InMemoryLibraryServiceMock();
+        Assertions.assertEquals(completeLibrary, inMemoryLibraryServiceMock.getMusic(null));
     }
 
     @Test
     public void testGetBySearch() throws Exception{
-        LibraryService libraryService = new LibraryService();
-        Assertions.assertEquals(searchedLibrary, libraryService.getMusic("ll"));
+        InMemoryLibraryServiceMock inMemoryLibraryServiceMock = new InMemoryLibraryServiceMock();
+        Assertions.assertEquals(searchedLibrary, inMemoryLibraryServiceMock.getMusic("ll"));
     }
 }
